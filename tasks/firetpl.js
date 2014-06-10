@@ -27,7 +27,9 @@ module.exports = function(grunt) {
             amd: false,
             commonjs: false,
             verbose: false,
-            noScope: false
+            noScope: false,
+            i18n: false,
+            i18nDefault: 'en-US'
         });
 
         //Set debug mode
