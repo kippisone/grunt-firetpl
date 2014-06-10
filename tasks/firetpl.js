@@ -57,7 +57,7 @@ module.exports = function(grunt) {
                     verbose: options.verbose
                 });
 
-                precompiled = 'FireTPL.templateCache[\'' + tplName + '\']=function(data,scopes) {\n\tvar h=new FireTPL.Runtime();\n\t' + precompiled + '\n\treturn s;};';
+                // precompiled = 'FireTPL.templateCache[\'' + tplName + '\']=function(data,scopes) {' + precompiled + '};';
 
                 return precompiled;
             }).join('');
