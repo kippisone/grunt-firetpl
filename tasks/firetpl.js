@@ -10,7 +10,8 @@
 
 var path = require('path');
 
-var FireTPL = require('firetpl');
+var FireTPL = require('firetpl'),
+    extend = require('node.extend');
 
 module.exports = function(grunt) {
 
@@ -29,7 +30,8 @@ module.exports = function(grunt) {
             verbose: false,
             noScope: false,
             i18n: false,
-            i18nDefault: 'en-US'
+            i18nDefault: 'en-US',
+            i18nDir: 'locale'
         });
 
         //Set debug mode
@@ -37,6 +39,31 @@ module.exports = function(grunt) {
 
         // Iterate over all specified file groups.
         this.files.forEach(function(f) {
+
+            var i18nSrc = '';
+
+            // Precompile i18n file
+            if (options.i18n) {
+                var langFile,
+                    defaultLangFile;
+
+                grunt.log.subhead('Read i18n files');
+                if (options.i18n !== options.i18nDefault) {
+                    langFile = path.join(options.i18nDir, options.i18n + '.json');
+                    grunt.log.ok(langFile);
+                    langFile = grunt.file.readJSON(langFile);
+                }
+
+                defaultLangFile = path.join(options.i18nDir, options.i18nDefault + '.json');
+                grunt.log.ok(defaultLangFile);
+                defaultLangFile = grunt.file.readJSON(defaultLangFile);
+
+                i18nSrc = extend(true, defaultLangFile, langFile);
+                i18nSrc = JSON.stringify(i18nSrc);
+                i18nSrc = 'FireTPL.locale=' + i18nSrc + ';';
+            }
+            
+            grunt.log.subhead('Read template files');
             // Concat specified files.
             var src = f.src.filter(function(filepath) {
                 grunt.log.ok(filepath);
@@ -63,6 +90,8 @@ module.exports = function(grunt) {
 
                 return precompiled;
             }).join('');
+
+            src = i18nSrc + src;
 
             if (options.commonjs) {
                 src = ';(function(require){var FireTPL = require(\'' + options.firetplModule + '\');' + src + '})(require);';

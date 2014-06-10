@@ -1,66 +1,43 @@
 'use strict';
 
-var grunt = require('grunt');
+var grunt = require('grunt'),
+    expect = require('expect.js');
 
-/*
-  ======== A Handy Little Nodeunit Reference ========
-  https://github.com/caolan/nodeunit
+describe('grunt-firetpl', function() {
+    it('Should parse all .fire files', function() {
+        var actual = grunt.file.read('tmp/precompiled.js');
+        var expected = grunt.file.read('test/expected/precompiled.js');
+        expect(expected).to.eql(actual);
+    });
+    
+    it('Should parse all .fire files', function() {
+        var actual = grunt.file.read('tmp/precompiled-commonjs.js');
+        var expected = grunt.file.read('test/expected/precompiled-commonjs.js');
+        expect(expected).to.eql(actual);
+    });
+    
+    it('Should parse all .fire files', function() {
+        var actual = grunt.file.read('tmp/precompiled-amd.js');
+        var expected = grunt.file.read('test/expected/precompiled-amd.js');
+        expect(expected).to.eql(actual);
+    });
 
-  Test methods:
-    test.expect(numAssertions)
-    test.done()
-  Test assertions:
-    test.ok(value, [message])
-    test.equal(actual, expected, [message])
-    test.notEqual(actual, expected, [message])
-    test.deepEqual(actual, expected, [message])
-    test.notDeepEqual(actual, expected, [message])
-    test.strictEqual(actual, expected, [message])
-    test.notStrictEqual(actual, expected, [message])
-    test.throws(block, [error], [message])
-    test.doesNotThrow(block, [error], [message])
-    test.ifError(value)
-*/
+    it('Should parse all .fire files', function() {
+        var actual = grunt.file.read('tmp/precompiled-amd-module-name.js');
+        var expected = grunt.file.read('test/expected/precompiled-amd-module-name.js');
+        expect(expected).to.eql(actual);
+    });
 
-exports.firetpl = {
-  setUp: function(done) {
-    // setup here if necessary
-    done();
-  },
-  default_options: function(test) {
-    test.expect(1);
+    it('Should precompile a i18n file (default)', function() {
+        var actual = grunt.file.read('tmp/precompiled-i18n-default.js');
+        var expected = grunt.file.read('test/expected/precompiled-i18n-default.js');
+        expect(expected).to.eql(actual);
+    });
 
-    var actual = grunt.file.read('tmp/precompiled.js');
-    var expected = grunt.file.read('test/expected/precompiled.js');
-    test.equal(actual, expected, 'should parse all .fire files');
+    it('Should precompile a i18n file (german)', function() {
+        var actual = grunt.file.read('tmp/precompiled-i18n-default.js');
+        var expected = grunt.file.read('test/expected/precompiled-i18n-default.js');
+        expect(expected).to.eql(actual);
+    });
 
-    test.done();
-  },
-  commonjs: function(test) {
-    test.expect(1);
-
-    var actual = grunt.file.read('tmp/precompiled-commonjs.js');
-    var expected = grunt.file.read('test/expected/precompiled-commonjs.js');
-    test.equal(actual, expected, 'should parse all .fire files');
-
-    test.done();
-  },
-  amd: function(test) {
-    test.expect(1);
-
-    var actual = grunt.file.read('tmp/precompiled-amd.js');
-    var expected = grunt.file.read('test/expected/precompiled-amd.js');
-    test.equal(actual, expected, 'should parse all .fire files');
-
-    test.done();
-  },
-  amdModuleName: function(test) {
-    test.expect(1);
-
-    var actual = grunt.file.read('tmp/precompiled-amd-module-name.js');
-    var expected = grunt.file.read('test/expected/precompiled-amd-module-name.js');
-    test.equal(actual, expected, 'should parse all .fire files');
-
-    test.done();
-  }
-};
+});

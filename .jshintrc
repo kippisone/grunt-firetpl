@@ -1,4 +1,8 @@
 {
+  "globals": {
+    "describe": false,
+    "it": false
+  },
   "curly": true,
   "eqeqeq": true,
   "immed": true,

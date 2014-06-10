@@ -10,77 +10,98 @@
 
 module.exports = function(grunt) {
 
-  // Project configuration.
-  grunt.initConfig({
-    jshint: {
-      all: [
-        'Gruntfile.js',
-        'tasks/*.js',
-        '<%= nodeunit.tests %>'
-      ],
-      options: {
-        jshintrc: '.jshintrc'
-      }
-    },
-
-    // Before generating any new files, remove any previously-created files.
-    clean: {
-      tests: ['tmp']
-    },
-
-    // Configuration to be run (and then tested).
-    firetpl: {
-      default_options: {
-        options: {
-
+    // Project configuration.
+    grunt.initConfig({
+        jshint: {
+            all: [
+                'Gruntfile.js',
+                'tasks/*.js',
+                '<%= nodeunit.tests %>'
+            ],
+            options: {
+                jshintrc: '.jshintrc'
+            }
         },
-        src: ['test/fixtures/*.fire'],
-        dest: 'tmp/precompiled.js'
-      },
-      commonjs: {
-        options: {
-          commonjs: true
+
+        // Before generating any new files, remove any previously-created files.
+        clean: {
+            tests: ['tmp']
         },
-        src: ['test/fixtures/*.fire'],
-        dest: 'tmp/precompiled-commonjs.js'
-      },
-      amd: {
-        options: {
-          amd: true
+
+        // Configuration to be run (and then tested).
+        firetpl: {
+            default_options: {
+                options: {
+
+                },
+                src: ['test/fixtures/*.fire'],
+                dest: 'tmp/precompiled.js'
+            },
+            commonjs: {
+                options: {
+                    commonjs: true
+                },
+                src: ['test/fixtures/*.fire'],
+                dest: 'tmp/precompiled-commonjs.js'
+            },
+            amd: {
+                options: {
+                    amd: true
+                },
+                src: ['test/fixtures/*.fire'],
+                dest: 'tmp/precompiled-amd.js'
+            },
+            amdModuleName: {
+                options: {
+                    amd: true,
+                    moduleName: 'firetpl-templates'
+                },
+                src: ['test/fixtures/*.fire'],
+                dest: 'tmp/precompiled-amd-module-name.js'
+            },
+            i18nDefault: {
+                options: {
+                    i18n: 'en-US',
+                    i18nDir: 'test/fixtures/locale'
+                },
+                src: ['test/fixtures/*.fire'],
+                dest: 'tmp/precompiled-i18n-default.js'
+            },
+            i18nGerman: {
+                options: {
+                    i18n: 'de-DE',
+                    i18nDir: 'test/fixtures/locale'
+                },
+                src: ['test/fixtures/*.fire'],
+                dest: 'tmp/precompiled-i18n-german.js'
+            }
         },
-        src: ['test/fixtures/*.fire'],
-        dest: 'tmp/precompiled-amd.js'
-      },
-      amdModuleName: {
-        options: {
-          amd: true,
-          moduleName: 'firetpl-templates'
-        },
-        src: ['test/fixtures/*.fire'],
-        dest: 'tmp/precompiled-amd-module-name.js'
-      }
-    },
 
-    // Unit tests.
-    nodeunit: {
-      tests: ['test/*_test.js']
-    }
+        // Unit tests.
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec'
+                },
+                src: ['test/*_test.js']
+            }
+        }
 
-  });
+    });
 
-  // Actually load this plugin's task(s).
-  grunt.loadTasks('tasks');
+    // Actually load this plugin's task(s).
+    grunt.loadTasks('tasks');
 
-  // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+    // These plugins provide necessary tasks.
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
-  // Whenever the "test" task is run, first clean the "tmp" dir, then run this
-  // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'firetpl', 'nodeunit']);
+    // Whenever the "test" task is run, first clean the "tmp" dir, then run this
+    // plugin's task(s), then test the result.
+    grunt.registerTask('test', ['clean', 'firetpl', 'mochaTest']);
 
-  // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'test']);
+    // By default, lint and run all tests.
+    grunt.registerTask('default', ['jshint', 'test']);
 
 };
