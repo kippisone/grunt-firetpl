@@ -64,6 +64,7 @@ module.exports = function(grunt) {
             }
             
             grunt.log.subhead('Read template files');
+            
             // Concat specified files.
             var src = f.src.filter(function(filepath) {
                 grunt.log.ok(filepath);
