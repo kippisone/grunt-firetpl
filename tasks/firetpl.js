@@ -11,6 +11,7 @@
 var path = require('path');
 
 var FireTPL = require('firetpl'),
+    LocalePrecompiler = require('firetpl/modules/localePrecompiler'),
     extend = require('node.extend');
 
 module.exports = function(grunt) {
@@ -44,23 +45,16 @@ module.exports = function(grunt) {
 
             // Precompile i18n file
             if (options.i18n) {
-                var langFile,
-                    defaultLangFile;
 
-                grunt.log.subhead('Read i18n files');
-                if (options.i18n !== options.i18nDefault) {
-                    langFile = path.join(options.i18nDir, options.i18n + '.json');
-                    grunt.log.ok(langFile);
-                    langFile = grunt.file.readJSON(langFile);
-                }
+                grunt.log.subhead('Parse locale files');
 
-                defaultLangFile = path.join(options.i18nDir, options.i18nDefault + '.json');
-                grunt.log.ok(defaultLangFile);
-                defaultLangFile = grunt.file.readJSON(defaultLangFile);
+                var compiler = new LocalePrecompiler();
+                var locales = compiler.compile({
+                    baseDir: options.i18nDir,
+                    verbose: true
+                });
 
-                i18nSrc = extend(true, defaultLangFile, langFile);
-                i18nSrc = JSON.stringify(i18nSrc);
-                i18nSrc = 'FireTPL.locale=' + i18nSrc + ';';
+                i18nSrc = 'FireTPL.locale=' + JSON.stringify(locales[options.i18n]) + ';';                
             }
             
             grunt.log.subhead('Read template files');
