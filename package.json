@@ -1,7 +1,7 @@
 {
   "name": "grunt-firetpl",
   "description": "Precompiler for FireTPL",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "homepage": "",
   "author": {
     "name": "Andi Oxidant",
@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "none"
+    "url": "https://github.com/AndiOxidant/grunt-firetpl"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/AndiOxidant/grunt-firetpl/issues"
   },
   "licenses": [
     {
@@ -37,9 +37,12 @@
     "grunt": "~0.4.4"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
+    "firetpl",
+    "template"
   ],
   "dependencies": {
+    "firetpl": "^0.2.0",
     "node.extend": "~1.0.10"
   }
 }
