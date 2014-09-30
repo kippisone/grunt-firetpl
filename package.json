@@ -1,7 +1,7 @@
 {
   "name": "grunt-firetpl",
   "description": "Precompiler for FireTPL",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "homepage": "",
   "author": {
     "name": "Andi Oxidant",
