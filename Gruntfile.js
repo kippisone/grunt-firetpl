@@ -85,6 +85,18 @@ module.exports = function(grunt) {
                 },
                 src: ['test/*_test.js']
             }
+        },
+
+        release: {
+            options: {
+                npm: true, //default: true
+                npmtag: true, //default: no tag
+                indentation: '    ', //default: '  ' (two spaces)
+                tagName: 'v<%= version %>', //default: '<%= version %>'
+                commitMessage: 'Release v<%= version %>', //default: 'release <%= version %>'
+                tagMessage: 'Tagging release v<%= version %>', //default: 'Version <%= version %>',
+                beforeRelease: ['build']
+            }
         }
 
     });
@@ -96,6 +108,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-release');
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
     // plugin's task(s), then test the result.
